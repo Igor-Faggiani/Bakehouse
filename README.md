@@ -72,6 +72,11 @@ O projeto foi estruturado seguindo o padrão de arquitetura
 
 #
 
+**Database**
+
+<img width="1148" height="864" alt="bakery database" src="https://github.com/user-attachments/assets/87b5777b-aeeb-47cb-9a7b-44a01b0e9cb6" />
+
+
 **👥 Autores**
   
 Este trabalho foi desenvolvido por:
