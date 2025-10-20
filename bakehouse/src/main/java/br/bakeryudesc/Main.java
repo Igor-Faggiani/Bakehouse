@@ -1,6 +1,6 @@
 package br.bakeryudesc;
 
-import br.bakeryudesc.view.Dashboard;
+import br.bakeryudesc.view.MainPanel;
 
 import javax.swing.*;
 
@@ -16,13 +16,9 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Bakery Management System");
-
-            frame.setContentPane(new Dashboard().getDashboardPanel());
-
+            frame.setContentPane(new MainPanel().getMainPanel());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
             frame.setVisible(true);
         });
     }

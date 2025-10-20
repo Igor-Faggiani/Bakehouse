@@ -15,7 +15,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "customer_id")
     private Long id;
 
     @Column(name = "name", length = 255, nullable = false)
@@ -37,4 +37,8 @@ public class Customer {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

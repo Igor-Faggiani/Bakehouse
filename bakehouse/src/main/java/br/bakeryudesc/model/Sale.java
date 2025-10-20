@@ -19,7 +19,7 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "sale_id")
     private Long id;
 
     @Column(name = "sale_date", nullable = false)
