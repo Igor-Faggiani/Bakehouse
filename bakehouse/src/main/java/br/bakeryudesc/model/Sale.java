@@ -19,7 +19,7 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "sale_id")
     private Long id;
 
     @Column(name = "sale_date", nullable = false)
@@ -49,6 +49,29 @@ public class Sale {
         this.pointsEarned = pointsEarned;
         this.customer = customer;
         this.items = items;
+    }
+
+    public void addItem(SaleItem item) {
+        items.add(item);
+        item.setSale(this);
+    }
+
+    public void removeItem(SaleItem item) {
+        items.remove(item);
+        item.setSale(null);
+    }
+
+    public String getItemString() {
+        StringBuilder itemString = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            if (i == items.size() - 1) {
+                itemString.append(items.get(i).toString());
+            } else {
+                itemString.append(items.get(i).toString()).append(", ");
+            }
+        }
+
+        return itemString.toString();
     }
 
     @PrePersist

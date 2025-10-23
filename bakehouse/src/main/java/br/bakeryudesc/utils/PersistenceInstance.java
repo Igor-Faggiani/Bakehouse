@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class PersistenceInstance {
 
-    private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("padaria-pu");
+    private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("bakehouse");
 
     public static EntityManager getEntityManager() {
         return FACTORY.createEntityManager();

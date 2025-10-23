@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "product_id")
     private int id;
 
     @Column(name = "name", length = 255, nullable = false)
@@ -41,6 +42,9 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     public Product(String name, BigDecimal price, int stockQuantity, boolean redeemable, Integer pointsCost, String imageUrl, Category category) {
         this.name = name;
         this.price = price;
@@ -49,6 +53,11 @@ public class Product {
         this.pointsCost = pointsCost;
         this.imageUrl = imageUrl;
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

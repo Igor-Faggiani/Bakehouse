@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "customer_id")
     private Long id;
 
     @Column(name = "name", length = 255, nullable = false)
@@ -30,6 +31,9 @@ public class Customer {
     @Column(name = "total_points", nullable = false)
     private int totalPoints;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     public Customer(int totalPoints, String phone, String cpf, String name) {
         this.totalPoints = totalPoints;
         this.phone = phone;
@@ -37,4 +41,8 @@ public class Customer {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
