@@ -2,7 +2,8 @@
 CREATE TABLE categories
 (
     category_id SERIAL PRIMARY KEY,
-    name        VARCHAR(100) UNIQUE NOT NULL
+    name        VARCHAR(100) UNIQUE NOT NULL,
+    deleted_at TIMESTAMP DEFAULT NULL
 );
 
 -- Tabela para armazenar os dados dos clientes
@@ -12,7 +13,8 @@ CREATE TABLE customers
     name         VARCHAR(255)       NOT NULL,
     cpf          VARCHAR(11) UNIQUE NOT NULL,
     phone        VARCHAR(15),
-    total_points INTEGER            NOT NULL DEFAULT 0
+    total_points INTEGER            NOT NULL DEFAULT 0,
+    deleted_at TIMESTAMP DEFAULT NULL
 );
 
 
@@ -26,7 +28,8 @@ CREATE TABLE products
     redeemable     BOOLEAN                 DEFAULT FALSE,
     points_cost    INTEGER,
     image_url      VARCHAR(500),
-    category_id    INTEGER        NOT NULL REFERENCES categories (category_id)
+    category_id    INTEGER        NOT NULL REFERENCES categories (category_id),
+    deleted_at TIMESTAMP DEFAULT NULL
 );
 
 -- Tabela para registrar as vendas, com referência ao cliente

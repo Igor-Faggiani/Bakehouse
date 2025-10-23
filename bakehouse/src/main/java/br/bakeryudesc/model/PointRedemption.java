@@ -16,7 +16,7 @@ public class PointRedemption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "point_redemption_id")
+    @Column(name = "redemption_id")
     private Long id;
 
     @Column(name = "redemption_date", nullable = false)

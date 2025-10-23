@@ -32,19 +32,17 @@ public class CustomerController {
         customerDAO.save(newCustomer);
     }
 
-    public void updateCustomer(Long customerId, String name, String phone) {
-        Customer customer = customerDAO.findById(customerId);
+    public void updateCustomer(Customer customer) {
         if (customer != null) {
-            customer.setName(name);
-            customer.setPhone(phone);
+            System.out.println("updated customer " + customer.getName());
             customerDAO.update(customer);
         } else {
-            System.err.println("Error: Customer id " + customerId + " not found to update.");
+            System.err.println("Error: Customer id " + customer.getId() + " not updated.");
         }
     }
 
-    public void deleteCustomer(Long customerId) {
-        customerDAO.deleteById(customerId);
+    public void deleteCustomer(Customer customer) {
+        customerDAO.softDelete(customer);
     }
 
     public Customer findCustomerById(Long customerId) {

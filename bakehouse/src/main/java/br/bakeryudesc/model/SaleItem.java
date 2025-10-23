@@ -39,4 +39,10 @@ public class SaleItem {
         this.product = product;
         this.sale = sale;
     }
+
+    @Override
+    public String toString() {
+        return product.getName();
+    }
+
 }

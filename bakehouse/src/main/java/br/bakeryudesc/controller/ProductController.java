@@ -22,13 +22,15 @@ public class ProductController {
         this.categoryDAO = new CategoryDAO(entityManager);
     }
 
-    public void createProduct(String name, BigDecimal price, int stockQuantity, Long categoryId) {
+    public void createProduct(String name, BigDecimal price, boolean redeemable, int redeemablePoints, int stockQuantity, Long categoryId) {
         Category category = categoryDAO.findById(categoryId);
 
         if (category != null) {
             Product newProduct = new Product();
             newProduct.setName(name);
             newProduct.setPrice(price);
+            newProduct.setRedeemable(redeemable);
+            newProduct.setPointsCost(redeemablePoints);
             newProduct.setStockQuantity(stockQuantity);
             newProduct.setCategory(category);
 
@@ -38,18 +40,14 @@ public class ProductController {
         }
     }
 
-    public void updateProduct(Long productId, String name, BigDecimal price, int stockQuantity) {
-        Product product = productDAO.findById(productId);
+    public void updateProduct(Product product) {
         if (product != null) {
-            product.setName(name);
-            product.setPrice(price);
-            product.setStockQuantity(stockQuantity);
             productDAO.update(product);
         }
     }
 
-    public void deleteProduct(Long productId) {
-        productDAO.deleteById(productId);
+    public void deleteProduct(Product productId) {
+        productDAO.softDelete(productId);
     }
 
     public Product findProductById(Long productId) {
@@ -58,6 +56,10 @@ public class ProductController {
 
     public List<Product> findAllProducts() {
         return productDAO.findAll();
+    }
+
+    public List<Product> findAllProductsInStock() {
+        return productDAO.findAll().stream().filter(product -> product.getStockQuantity() > 0).toList();
     }
 
     public void close() {

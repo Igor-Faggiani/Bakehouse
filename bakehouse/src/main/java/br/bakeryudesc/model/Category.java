@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -21,8 +22,15 @@ public class Category {
     @Column(name = "name", length = 100, nullable = false, unique = true)
     private String name;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     public Category(String name) {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

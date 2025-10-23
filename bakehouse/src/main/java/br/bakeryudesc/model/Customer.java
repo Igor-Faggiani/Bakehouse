@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -29,6 +30,9 @@ public class Customer {
 
     @Column(name = "total_points", nullable = false)
     private int totalPoints;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     public Customer(int totalPoints, String phone, String cpf, String name) {
         this.totalPoints = totalPoints;

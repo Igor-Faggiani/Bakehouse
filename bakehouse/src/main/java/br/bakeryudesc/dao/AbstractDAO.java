@@ -2,8 +2,12 @@ package br.bakeryudesc.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class AbstractDAO<T, ID extends Serializable> {
@@ -65,13 +69,35 @@ public abstract class AbstractDAO<T, ID extends Serializable> {
         }
     }
 
+    public void softDelete(T entity) {
+        EntityTransaction transaction = null;
+        try {
+            Method method = entity.getClass().getMethod("setDeletedAt", LocalDateTime.class);
+            method.invoke(entity, LocalDateTime.now());
+
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.merge(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failure while trying to do soft delete.", e);
+        }
+    }
+
     public T findById(ID id) {
         return entityManager.find(entityClass, id);
     }
 
     public List<T> findAll() {
-        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
-        cq.select(cq.from(entityClass));
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+
+        cq.select(root).where(cb.isNull(root.get("deletedAt")));
+
         return entityManager.createQuery(cq).getResultList();
     }
 }
