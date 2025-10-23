@@ -213,12 +213,11 @@ public class RegisterSale {
 
     private void refreshList() {
         mainPanel.setVisible(false);
+        refreshData();
     }
 
     public void refreshData() {
-        if (selectedProduct != null) {
-            selectProductList.clear();
-        }
+        selectProductList.clear();
 
         searchProduct.setText("");
         selectedProduct = null;

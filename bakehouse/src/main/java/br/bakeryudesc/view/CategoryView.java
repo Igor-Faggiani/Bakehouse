@@ -132,7 +132,9 @@ public class CategoryView {
     }
 
     private void refreshInfo() {
-        textField_nameCategory.setText(currentCategory.getName());
+        if (currentCategory != null) {
+            textField_nameCategory.setText(currentCategory.getName());
+        }
     }
 
     public void refreshData() {
