@@ -12,8 +12,7 @@ public class PointRedemptionDAO extends AbstractDAO<PointRedemption, Long> {
     }
 
     public List<PointRedemption> findByCustomerId(Long customerId) {
-        TypedQuery<PointRedemption> query = entityManager.createQuery(
-                "SELECT pr FROM PointRedemption pr WHERE pr.customer.id = :customerId ORDER BY pr.redemptionDate DESC", PointRedemption.class);
+        TypedQuery<PointRedemption> query = entityManager.createQuery("SELECT pr FROM PointRedemption pr WHERE pr.customer.id = :customerId ORDER BY pr.redemptionDate DESC", PointRedemption.class);
         query.setParameter("customerId", customerId);
         return query.getResultList();
     }

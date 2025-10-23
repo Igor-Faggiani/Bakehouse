@@ -65,6 +65,7 @@ public class MainPanel {
     private void initRefreshThread() {
         new Thread(() -> {
             while (true) {
+                PersistenceInstance.getEntityManager();
 
                 if (RefreshFlag.refreshRegisterView) {
                     registerView.refreshData();

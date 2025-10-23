@@ -39,6 +39,7 @@ public class RegisterCategoryTab {
         cleanFields();
         DialogUtil.showSuccessAdded(mainPanel, "Category");
         RefreshFlag.refreshRegisterView = true;
+        RefreshFlag.refreshCategoryView = true;
     }
 
     private void cleanFields() {

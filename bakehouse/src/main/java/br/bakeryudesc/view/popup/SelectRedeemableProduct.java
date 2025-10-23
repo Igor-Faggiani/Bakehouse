@@ -2,6 +2,7 @@ package br.bakeryudesc.view.popup;
 
 import br.bakeryudesc.model.Customer;
 import br.bakeryudesc.model.Product;
+import br.bakeryudesc.utils.DialogUtil;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class SelectRedeemableProduct {
     private List<Product> selectedProductsToRedeemble;
     private final Customer customer;
     private final int points;
+    private int selectedPoints = 0;
 
     private JFrame frame;
 
@@ -47,6 +49,10 @@ public class SelectRedeemableProduct {
         });
 
         buttonConfirm.addActionListener(e -> {
+            if (selectedPoints > points) {
+                DialogUtil.showErrorMessage(mainPanel, "Insufficient points", "You cannot select more items than can be redeemed with points.");
+                return;
+            }
            new FinishToPay(allSelectedProducts, selectedProductsToRedeemble, customer);
            this.frame.dispose();
         });
@@ -65,13 +71,13 @@ public class SelectRedeemableProduct {
             selectedProductsToRedeemble.add(products.get(selectedIndex));
         }
 
-        int total = points;
+        selectedPoints = 0;
 
         for (Product product : selectedProductsToRedeemble) {
-            total -= product.getPointsCost();
+            selectedPoints += product.getPointsCost();
         }
 
-        remainingPointsTextField.setText(total + "");
+        remainingPointsTextField.setText(points - selectedPoints + "");
     }
 
     private void populateComponents() {

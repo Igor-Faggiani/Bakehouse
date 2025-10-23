@@ -31,8 +31,6 @@ public class RegisterSale {
     private JScrollPane selectedProductScrollPane;
     private JScrollPane allProductScrollPane;
 
-    private final ProductController productController;
-
     @Getter
     @Setter
     private Customer customer;
@@ -44,7 +42,6 @@ public class RegisterSale {
 
     public RegisterSale(Customer customer) {
         this.customer = customer;
-        this.productController = new ProductController();
         this.selectProductList = new HashMap<>();
         populateComponents();
         initListeners();
@@ -72,7 +69,20 @@ public class RegisterSale {
 
         listSelectedProduct.addListSelectionListener(e -> {
             listAllProduct.clearSelection();
-            selectedProduct = (Product) listSelectedProduct.getSelectedValue();
+            String productName = (String) listSelectedProduct.getSelectedValue();
+
+            if (productName == null || productName.isEmpty()) {
+                return;
+            }
+
+            int index = productName.indexOf("x") + 2;
+            productName = productName.substring(index);
+
+            for (Product product : productList) {
+                if (product.getName().contains(productName)) {
+                    selectedProduct = product;
+                }
+            }
         });
 
         searchProduct.getDocument().addDocumentListener(new DocumentListener() {
@@ -136,9 +146,17 @@ public class RegisterSale {
     }
 
     private void populateComponents() {
-        productList = productController.findAllProductsInStock();
-        listAllProduct.setListData(productList.toArray());
-        listAllProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        ProductController controller;
+        try {
+            controller = new ProductController();
+
+            productList = controller.findAllProductsInStock();
+            listAllProduct.setListData(productList.toArray());
+            listAllProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addProductToSale() {
@@ -148,17 +166,25 @@ public class RegisterSale {
         }
 
         selectProductList.put(selectedProduct, selectProductList.getOrDefault(selectedProduct, 0) + 1);
+        int selectedIndex = listAllProduct.getSelectedIndex();
         refreshDataOnList();
+        listAllProduct.setSelectedIndex(selectedIndex);
     }
 
     private void removeProductFromSale() {
+        if (!selectProductList.containsKey(selectedProduct)) {
+            return;
+        }
+
         if (selectProductList.get(selectedProduct) > 1) {
             selectProductList.put(selectedProduct, selectProductList.getOrDefault(selectedProduct, 0) - 1);
         } else {
             selectProductList.remove(selectedProduct);
         }
 
+        int selectedIndex = listAllProduct.getSelectedIndex();
         refreshDataOnList();
+        listSelectedProduct.setSelectedIndex(selectedIndex);
     }
 
     private void filterList() {

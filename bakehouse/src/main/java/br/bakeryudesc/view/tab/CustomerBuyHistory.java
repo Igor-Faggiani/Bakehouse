@@ -20,36 +20,44 @@ public class CustomerBuyHistory {
     @Setter
     private Customer customer;
     private DefaultTableModel model;
-    private SaleController saleController;
 
     private final String[] columns = {"Date", "Items", "Points", "Total price"};
 
     public CustomerBuyHistory(Customer customer) {
         this.customer = customer;
-        this.saleController = new SaleController();
         populateTable();
     }
 
     private void populateTable() {
-        List<Sale> sales = saleController.findSalesByCustomerId(customer.getId());
+        SaleController controller;
+        try {
+            controller = new SaleController();
 
-        model = getDefaultTableModel(columns, sales);
+            List<Sale> sales = controller.findSalesByCustomerId(customer.getId());
+            model = getDefaultTableModel(columns, sales);
 
-        tableHistory.setModel(model);
-        tableHistory.setAutoCreateRowSorter(true);
-        tableHistory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        scrollPane.setViewportView(tableHistory);
-
+            tableHistory.setModel(model);
+            tableHistory.setAutoCreateRowSorter(true);
+            tableHistory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            scrollPane.setViewportView(tableHistory);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void refreshTable() {
-        this.saleController = new SaleController();
-        model.setRowCount(0);
+        SaleController controller;
+        try {
+            controller = new SaleController();
 
-        List<Sale> sales = saleController.findSalesByCustomerId(customer.getId());
-        fillTable(sales, model);
+            model.setRowCount(0);
+            List<Sale> sales = controller.findSalesByCustomerId(customer.getId());
+            fillTable(sales, model);
 
-        tableHistory.clearSelection();
+            tableHistory.clearSelection();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private DefaultTableModel getDefaultTableModel(String[] columns, List<Sale> sales) {

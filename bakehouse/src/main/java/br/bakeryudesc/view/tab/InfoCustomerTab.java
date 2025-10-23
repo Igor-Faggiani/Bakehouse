@@ -85,9 +85,16 @@ public class InfoCustomerTab {
         customer.setPhone(phone);
         customer.setTotalPoints(Integer.parseInt(redemptionPoints));
 
-        CustomerController customerController = new CustomerController();
-        customerController.updateCustomer(customer);
-        DialogUtil.showSuccessAdded(mainPanel, "Customer");
+        CustomerController controller;
+        try {
+            controller = new CustomerController();
+
+            controller.updateCustomer(customer);
+            DialogUtil.showSuccessAdded(mainPanel, "Customer");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void refreshData() {

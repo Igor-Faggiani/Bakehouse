@@ -23,21 +23,27 @@ public class CategoryView {
     private JButton buttonDelete;
     private JScrollPane categoryScrollPane;
 
-    private CategoryController categoryController;
     private List<Category> categoryList;
 
     private Category currentCategory;
 
     public CategoryView() {
-        this.categoryController = new CategoryController();
         populateList();
         initListeners();
     }
 
     private void populateList() {
-        categoryList = categoryController.findAllCategories();
-        jListCategory.setListData(categoryList.toArray());
-        jListCategory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        CategoryController controller;
+        try {
+            controller = new CategoryController();
+
+            categoryList = controller.findAllCategories();
+            System.out.println(categoryList);
+            jListCategory.setListData(categoryList.toArray());
+            jListCategory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void initListeners() {
@@ -84,16 +90,30 @@ public class CategoryView {
     }
 
     private void updateCategory() {
-        currentCategory.setName(textField_nameCategory.getText());
-        categoryController.updateCategory(currentCategory);
-        DialogUtil.showSuccessUpdated(mainPanel, "Category");
-        RefreshFlag.refreshCategoryView = true;
+        CategoryController controller;
+        try {
+            controller = new CategoryController();
+
+            currentCategory.setName(textField_nameCategory.getText());
+            controller.updateCategory(currentCategory);
+            DialogUtil.showSuccessUpdated(mainPanel, "Category");
+            RefreshFlag.refreshCategoryView = true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void deleteCategory() {
-        categoryController.deleteCategory(currentCategory);
-        DialogUtil.showSuccessDeleted(mainPanel, "Category");
-        populateList();
+        CategoryController controller;
+        try {
+            controller = new CategoryController();
+
+            controller.deleteCategory(currentCategory);
+            DialogUtil.showSuccessDeleted(mainPanel, "Category");
+            populateList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void filterList() {
@@ -116,7 +136,6 @@ public class CategoryView {
     }
 
     public void refreshData() {
-        this.categoryController = new CategoryController();
         populateList();
         refreshInfo();
     }

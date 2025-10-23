@@ -14,8 +14,7 @@ public class CustomerDAO extends AbstractDAO<Customer, Long> {
 
     public Customer findByCpf(String cpf) {
         try {
-            TypedQuery<Customer> query = entityManager.createQuery(
-                    "SELECT c FROM Customer c WHERE c.cpf = :cpf", Customer.class);
+            TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c WHERE c.cpf = :cpf", Customer.class);
             query.setParameter("cpf", cpf);
             return query.getSingleResult();
         } catch (NoResultException e) {
