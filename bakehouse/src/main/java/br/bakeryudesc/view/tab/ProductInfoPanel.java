@@ -5,6 +5,7 @@ import br.bakeryudesc.controller.ProductController;
 import br.bakeryudesc.model.Category;
 import br.bakeryudesc.model.Product;
 import br.bakeryudesc.utils.DialogUtil;
+import br.bakeryudesc.utils.RefreshFlag;
 import br.bakeryudesc.utils.ValidateInput;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,7 +53,7 @@ public class ProductInfoPanel {
     private void updateProduct() {
         String price = textField_productPrice.getText();
         String stock = textField_productStock.getText();
-        String redemptionPoints = textField_productStock.getText();
+        String redemptionPoints = textField_redemptionPoints.getText();
 
         if (!ValidateInput.isNumeric(price)) {
             DialogUtil.showInvalidInputDialog(mainPanel, "Price");
@@ -78,6 +79,9 @@ public class ProductInfoPanel {
 
         productController.updateProduct(product);
         DialogUtil.showSuccessUpdated(mainPanel, "Product");
+        RefreshFlag.refreshRegisterView = true;
+        RefreshFlag.refreshProductView = true;
+        RefreshFlag.refreshCustomerView = true;
     }
 
     public void refreshData() {

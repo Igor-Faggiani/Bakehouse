@@ -64,6 +64,8 @@ public class Sale {
     public String getItemString() {
         StringBuilder itemString = new StringBuilder();
         for (int i = 0; i < items.size(); i++) {
+            itemString.append(items.get(i).getQuantity()).append(" x ");
+
             if (i == items.size() - 1) {
                 itemString.append(items.get(i).toString());
             } else {

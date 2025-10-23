@@ -98,6 +98,8 @@ public class CategoryView {
             controller.updateCategory(currentCategory);
             DialogUtil.showSuccessUpdated(mainPanel, "Category");
             RefreshFlag.refreshCategoryView = true;
+            RefreshFlag.refreshProductView = true;
+            RefreshFlag.refreshRegisterView = true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -111,6 +113,9 @@ public class CategoryView {
             controller.deleteCategory(currentCategory);
             DialogUtil.showSuccessDeleted(mainPanel, "Category");
             populateList();
+            RefreshFlag.refreshCategoryView = true;
+            RefreshFlag.refreshProductView = true;
+            RefreshFlag.refreshRegisterView = true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -3,6 +3,7 @@ package br.bakeryudesc.view;
 import br.bakeryudesc.controller.CustomerController;
 import br.bakeryudesc.model.Customer;
 import br.bakeryudesc.utils.DialogUtil;
+import br.bakeryudesc.utils.RefreshFlag;
 import br.bakeryudesc.view.tab.CustomerBuyHistory;
 import br.bakeryudesc.view.tab.InfoCustomerTab;
 import lombok.Getter;
@@ -107,6 +108,7 @@ public class CustomerView {
             controller.deleteCustomer(currentCustomer);
             DialogUtil.showSuccessDeleted(mainPanel, "Customer");
             populateCustomerList();
+            RefreshFlag.refreshCustomerView = true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

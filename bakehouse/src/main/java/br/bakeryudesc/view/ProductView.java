@@ -3,6 +3,7 @@ package br.bakeryudesc.view;
 import br.bakeryudesc.controller.ProductController;
 import br.bakeryudesc.model.Product;
 import br.bakeryudesc.utils.DialogUtil;
+import br.bakeryudesc.utils.RefreshFlag;
 import br.bakeryudesc.view.tab.ProductInfoPanel;
 import lombok.Getter;
 
@@ -92,7 +93,8 @@ public class ProductView {
 
             controller.deleteProduct(currentProduct);
             DialogUtil.showSuccessDeleted(mainPanel, "Product");
-            populateProductList();
+            RefreshFlag.refreshCustomerView = true;
+            RefreshFlag.refreshProductView = true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

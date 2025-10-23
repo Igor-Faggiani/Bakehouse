@@ -3,6 +3,7 @@ package br.bakeryudesc.view.tab;
 import br.bakeryudesc.controller.CustomerController;
 import br.bakeryudesc.model.Customer;
 import br.bakeryudesc.utils.DialogUtil;
+import br.bakeryudesc.utils.RefreshFlag;
 import br.bakeryudesc.utils.ValidateInput;
 import br.bakeryudesc.view.tab.register.RegisterSale;
 import lombok.Getter;
@@ -90,7 +91,8 @@ public class InfoCustomerTab {
             controller = new CustomerController();
 
             controller.updateCustomer(customer);
-            DialogUtil.showSuccessAdded(mainPanel, "Customer");
+            DialogUtil.showSuccessUpdated(mainPanel, "Customer");
+            RefreshFlag.refreshCustomerView = true;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
