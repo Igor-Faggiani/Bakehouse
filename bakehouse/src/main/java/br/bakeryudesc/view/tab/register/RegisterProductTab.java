@@ -6,6 +6,7 @@ import br.bakeryudesc.model.Category;
 import br.bakeryudesc.utils.DialogUtil;
 import br.bakeryudesc.utils.RefreshFlag;
 import br.bakeryudesc.utils.ValidateInput;
+import jdk.jfr.StackTrace;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -29,20 +30,25 @@ public class RegisterProductTab {
     private JLabel stockLabel;
     private JTextField textFieldProductStock;
 
-    private final CategoryController categoryController;
-    private final ProductController productController;
-
     public RegisterProductTab() {
-        this.categoryController = new CategoryController();
-        this.productController = new ProductController();
         initListeners();
         populateComponents();
     }
 
     private void populateComponents() {
-        List<Category> categoryList = categoryController.findAllCategories();
-        comboBoxProductCategory.removeAllItems();
-        categoryList.forEach(category -> comboBoxProductCategory.addItem(category));
+
+        CategoryController controller;
+        try {
+            controller = new CategoryController();
+
+            List<Category> categoryList = controller.findAllCategories();
+
+            comboBoxProductCategory.removeAllItems();
+            categoryList.forEach(category -> comboBoxProductCategory.addItem(category));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void initListeners() {
@@ -85,12 +91,20 @@ public class RegisterProductTab {
             return;
         }
 
-        productController.createProduct(name, new BigDecimal(price), redeemable, Integer.parseInt(redeemablePoints), Integer.parseInt(stock), category.getId());
-        cleanFields();
-        DialogUtil.showSuccessAdded(mainPanel, "Product");
-        RefreshFlag.refreshRegisterView = true;
-        RefreshFlag.refreshProductView = true;
-        RefreshFlag.refreshCustomerView = true;
+        ProductController controller;
+        try {
+            controller = new ProductController();
+
+            controller.createProduct(name, new BigDecimal(price), redeemable, Integer.parseInt(redeemablePoints), Integer.parseInt(stock), category.getId());
+            cleanFields();
+            DialogUtil.showSuccessAdded(mainPanel, "Product");
+            RefreshFlag.refreshRegisterView = true;
+            RefreshFlag.refreshProductView = true;
+            RefreshFlag.refreshCustomerView = true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void cleanFields() {

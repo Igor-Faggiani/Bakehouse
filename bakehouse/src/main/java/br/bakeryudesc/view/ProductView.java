@@ -24,20 +24,25 @@ public class ProductView {
 
     private ProductInfoPanel productInfoPanel;
     private Product currentProduct;
-    private ProductController productController;
 
     public ProductView() {
-        this.productController = new ProductController();
         initListeners();
         populateProductList();
     }
 
     private void populateProductList() {
-        jListProduct.removeAll();
-        productList = productController.findAllProducts();
+        ProductController controller;
+        try {
+            controller = new ProductController();
 
-        jListProduct.setListData(productList.toArray());
-        jListProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jListProduct.removeAll();
+            productList = controller.findAllProducts();
+
+            jListProduct.setListData(productList.toArray());
+            jListProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void initListeners() {
@@ -81,9 +86,16 @@ public class ProductView {
     }
 
     private void deleteProduct() {
-        productController.deleteProduct(currentProduct);
-        DialogUtil.showSuccessDeleted(mainPanel, "Product");
-        populateProductList();
+        ProductController controller;
+        try {
+            controller = new ProductController();
+
+            controller.deleteProduct(currentProduct);
+            DialogUtil.showSuccessDeleted(mainPanel, "Product");
+            populateProductList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void refreshInfo() {
@@ -114,7 +126,6 @@ public class ProductView {
     }
 
     public void refreshData() {
-        this.productController = new ProductController();
         populateProductList();
         refreshInfo();
     }

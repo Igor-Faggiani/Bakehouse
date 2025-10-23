@@ -85,6 +85,10 @@ public class ProductInfoPanel {
         comboBox_productCategory.removeAllItems();
         categoryList.forEach(category -> comboBox_productCategory.addItem(category));
 
+        if (product == null) {
+            return;
+        }
+
         textField_productName.setText(product.getName());
         textField_productPrice.setText(product.getPrice().toString());
         textField_productStock.setText(product.getStockQuantity() + "");

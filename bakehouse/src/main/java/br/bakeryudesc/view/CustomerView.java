@@ -31,11 +31,9 @@ public class CustomerView {
     private InfoCustomerTab infoCustomerTab;
     private CustomerBuyHistory customerBuyHistory;
 
-    private CustomerController customerController;
     private Customer currentCustomer;
 
     public CustomerView() {
-        this.customerController = new CustomerController();
         initListeners();
         populateCustomerList();
     }
@@ -102,9 +100,16 @@ public class CustomerView {
     }
 
     private void deleteCustomer() {
-        customerController.deleteCustomer(currentCustomer);
-        DialogUtil.showSuccessDeleted(mainPanel, "Customer");
-        populateCustomerList();
+        CustomerController controller;
+        try {
+            controller = new CustomerController();
+
+            controller.deleteCustomer(currentCustomer);
+            DialogUtil.showSuccessDeleted(mainPanel, "Customer");
+            populateCustomerList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void refreshInfo() {
@@ -161,12 +166,12 @@ public class CustomerView {
     }
 
     public void refreshData() {
-        this.customerController = new CustomerController();
         populateCustomerList();
 
-        currentCustomer = customerList.stream().filter(customer -> Objects.equals(customer.getId(), currentCustomer.getId())).toList().getFirst();
 
         if (currentCustomer != null) {
+            currentCustomer = customerList.stream().filter(customer -> Objects.equals(customer.getId(), currentCustomer.getId())).toList().getFirst();
+
             refreshInfo();
             refreshHistory();
         }

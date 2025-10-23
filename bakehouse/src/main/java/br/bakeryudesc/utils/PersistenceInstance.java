@@ -8,8 +8,11 @@ public class PersistenceInstance {
 
     private static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("bakehouse");
 
+    public static EntityManager entityManager;
+
     public static EntityManager getEntityManager() {
-        return FACTORY.createEntityManager();
+        entityManager = FACTORY.createEntityManager();
+        return entityManager;
     }
 
 }
