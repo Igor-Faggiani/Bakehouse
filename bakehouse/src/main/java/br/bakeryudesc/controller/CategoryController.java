@@ -47,7 +47,8 @@ public class CategoryController {
     }
 
     public List<Category> findAllCategories() {
-        return categoryDAO.findAll();
+        List<Category> categories = categoryDAO.findAll();
+        return categories.stream().filter(category -> category.getDeletedAt() == null).toList();
     }
 
     public void close() {
